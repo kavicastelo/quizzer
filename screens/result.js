@@ -10,7 +10,7 @@ function Result(navigation) {
             </View>
             <View style={styles.bannerContainer}>
                 <Image
-                    source={{uri: 'https://img.freepik.com/free-photo/funny-3d-illustration-cartoon-teenage-girl_183364-80283.jpg?w=740&t=st=1680428517~exp=1680429117~hmac=ebbbf01e8207ecfb1971fe69aa3f4ecfe3fc2fabbd272a1054a4be7135a96470'}}
+                    source={require('../assets/imgs/home.png')}
                     style={styles.banner} resizeMode="contain"/>
             </View>
             <View>

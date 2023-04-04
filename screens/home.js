@@ -5,15 +5,15 @@ import Title from "../components/title";
 
 function Home({navigation}) {
     return (
-        <View style={styles.bannerContainer}>
+        <View style={styles.container}>
             <Title/>
-            <View>
+            <View style={styles.bannerContainer}>
                 <Image
-                    source={{uri: 'https://img.freepik.com/free-photo/funny-3d-illustration-cartoon-teenage-girl_183364-80283.jpg?w=740&t=st=1680428517~exp=1680429117~hmac=ebbbf01e8207ecfb1971fe69aa3f4ecfe3fc2fabbd272a1054a4be7135a96470'}}
+                    source={require('../assets/imgs/home.png')}
                 style={styles.banner} resizeMode="contain"/>
             </View>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Quiz")}}>
-                <Text>Start</Text>
+            <TouchableOpacity onPress={()=>{navigation.navigate("Quiz")}} style={styles.btn}>
+                <Text style={styles.btnTxt}>Start</Text>
             </TouchableOpacity>
             <StatusBar style="auto"/>
         </View>
@@ -24,11 +24,32 @@ export default Home;
 
 const styles = StyleSheet.create({
     banner:{
-        width:300,
-        height:300
+        width:'100%',
+        height:'100%'
     },
     bannerContainer:{
+        flex:1,
+        alignItems:"center",
         justifyContent:"center",
-        alignItems:"center"
+        width:'100%'
+    },
+    container:{
+        justifyContent:"center",
+        alignItems:"center",
+        padding:20,
+        height:'100%'
+    },
+    btn:{
+        width:'100%',
+        padding:10,
+        borderRadius:20,
+        alignItems:"center",
+        backgroundColor:'#3498db',
+        marginBottom:20,
+    },
+    btnTxt:{
+        color:'white',
+        fontSize:26,
+        fontWeight:400
     }
 })
