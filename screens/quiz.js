@@ -1,38 +1,51 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from "react-native";
 import {StatusBar} from "expo-status-bar";
 
 function Quiz({navigation}) {
+    const [question,setQuestion]=useState();
+    const [ques,setQues]=useState(0);
+    const getQuiz = async ()=>{
+        const url = 'https://opentdb.com/api.php?amount=10&type=multiple';
+        const res = await fetch(url);
+        const data = await res.json();
+        setQuestion(data.results);
+    }
+    useEffect(()=>{
+        getQuiz()
+    },[]);
     return (
         <View style={styles.container}>
-            <View style={styles.top}>
-                <Text>This is question</Text>
+            {question && <View style={styles.parent}>
+                <View style={styles.top}>
+                <Text style={styles.que}>Q. {question[ques].question}</Text>
             </View>
-            <View style={styles.options}>
+                <View style={styles.options}>
+                <TouchableOpacity style={styles.optionWrapper}>
+                <Text style={styles.opt}>option 1</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.optionWrapper}>
+                <Text style={styles.opt}>option 2</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.optionWrapper}>
+                <Text style={styles.opt}>option 3</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.optionWrapper}>
+                <Text style={styles.opt}>option 4</Text>
+                </TouchableOpacity>
+                </View>
+                <View style={styles.bottom}>
                 <TouchableOpacity>
-                    <Text>option 1</Text>
+                <Text>SKIP</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text>option 2</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text>option 3</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text>option 4</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.bottom}>
-                <TouchableOpacity>
-                    <Text>SKIP</Text>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text>NEXT</Text>
+                <Text>NEXT</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate("Result")}}>
-                    <Text>END</Text>
+                <Text>END</Text>
                 </TouchableOpacity>
-            </View>
+                </View>
+            </View>}
             <StatusBar style="auto" />
         </View>
     );
@@ -46,11 +59,30 @@ const styles = StyleSheet.create({
         width:'100%',
         padding:40
     },
+    parent:{
+        height:'100%'
+    },
     top:{
         marginVertical:20
     },
+    que:{
+        fontSize:26,
+        fontWeight:"bold"
+    },
     options:{
         flex:1
+    },
+    optionWrapper:{
+        paddingVertical:15,
+        backgroundColor:'#1abc9c',
+        width:'100%',
+        padding:15,
+        marginVertical:10,
+        borderRadius:12
+    },
+    opt:{
+        fontSize:22,
+        color:'white'
     },
     bottom:{
         marginVertical:20,

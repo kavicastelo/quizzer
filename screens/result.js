@@ -14,7 +14,7 @@ function Result(navigation) {
                     style={styles.banner} resizeMode="contain"/>
             </View>
             <View>
-                <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                <TouchableOpacity onPress={()=>{navigation.navigate("Home")}}>
                     <Text>Home</Text>
                 </TouchableOpacity>
             </View>
