@@ -12,7 +12,7 @@ function Quiz({navigation}) {
         const res = await fetch(url);
         const data = await res.json();
         setQuestion(data.results);
-        generateOptionsAndShuffle(data.results[0])
+        setOption( generateOptionsAndShuffle(data.results[0]) )
     }
     useEffect(()=>{
         getQuiz()
@@ -20,6 +20,7 @@ function Quiz({navigation}) {
 
     const handleOnPressNext=()=>{
         setQues(ques+1);
+        setOption( generateOptionsAndShuffle(question[ques+1]) )
     }
 
     function shuffleArray(array) {
@@ -32,9 +33,8 @@ function Quiz({navigation}) {
     const generateOptionsAndShuffle=(_question)=>{
         const options = [..._question.incorrect_answers]
         options.push(_question.correct_answer)
-        console.log(options)
         shuffleArray(options)
-        console.log(options)
+        return options
     }
     return (
         <View style={styles.container}>
@@ -44,16 +44,16 @@ function Quiz({navigation}) {
             </View>
                 <View style={styles.options}>
                 <TouchableOpacity style={styles.optionWrapper}>
-                <Text style={styles.opt}>option 1</Text>
+                <Text style={styles.opt}>{decodeURIComponent( option[0])}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionWrapper}>
-                <Text style={styles.opt}>option 2</Text>
+                <Text style={styles.opt}>{decodeURIComponent( option[1])}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionWrapper}>
-                <Text style={styles.opt}>option 3</Text>
+                <Text style={styles.opt}>{decodeURIComponent( option[2])}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionWrapper}>
-                <Text style={styles.opt}>option 4</Text>
+                <Text style={styles.opt}>{decodeURIComponent( option[3])}</Text>
                 </TouchableOpacity>
                 </View>
                 <View style={styles.bottom}>
