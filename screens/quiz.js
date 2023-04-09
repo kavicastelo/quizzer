@@ -5,20 +5,42 @@ import {StatusBar} from "expo-status-bar";
 function Quiz({navigation}) {
     const [question,setQuestion]=useState();
     const [ques,setQues]=useState(0);
+    const [option, setOption] = useState([]);
+
     const getQuiz = async ()=>{
-        const url = 'https://opentdb.com/api.php?amount=10&type=multiple';
+        const url = 'https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986';
         const res = await fetch(url);
         const data = await res.json();
         setQuestion(data.results);
+        generateOptionsAndShuffle(data.results[0])
     }
     useEffect(()=>{
         getQuiz()
     },[]);
+
+    const handleOnPressNext=()=>{
+        setQues(ques+1);
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    const generateOptionsAndShuffle=(_question)=>{
+        const options = [..._question.incorrect_answers]
+        options.push(_question.correct_answer)
+        console.log(options)
+        shuffleArray(options)
+        console.log(options)
+    }
     return (
         <View style={styles.container}>
             {question && <View style={styles.parent}>
                 <View style={styles.top}>
-                <Text style={styles.que}>Q. {question[ques].question}</Text>
+                <Text style={styles.que}>Q. {decodeURIComponent( question[ques].question)}</Text>
             </View>
                 <View style={styles.options}>
                 <TouchableOpacity style={styles.optionWrapper}>
@@ -38,12 +60,12 @@ function Quiz({navigation}) {
                 <TouchableOpacity>
                 <Text>SKIP</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                <Text>NEXT</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{navigation.navigate("Result")}}>
-                <Text>END</Text>
-                </TouchableOpacity>
+                    {ques !== 9 && <TouchableOpacity onPress={handleOnPressNext}>
+                        <Text>NEXT</Text>
+                    </TouchableOpacity>}
+                    {ques === 9 && <TouchableOpacity onPress={handleOnPressNext}>
+                        <Text>RESULTS</Text>
+                    </TouchableOpacity>}
                 </View>
             </View>}
             <StatusBar style="auto" />
